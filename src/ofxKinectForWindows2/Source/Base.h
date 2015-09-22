@@ -2,6 +2,7 @@
 
 #include <string>
 #include <Kinect.h>
+#include <Kinect.Face.h>
 
 namespace ofxKinectForWindows2 {
 	using namespace std;

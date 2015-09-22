@@ -5,6 +5,7 @@
 
 namespace ofxKinectForWindows2 {
 	namespace Source {
+
 		//----------
 		string Body::getTypeName() const {
 			return "Body";
@@ -50,6 +51,39 @@ namespace ofxKinectForWindows2 {
 				SafeRelease(this->reader);
 				throw (e);
 			}
+
+			// FACE
+			for (int i = 0; i < BODY_COUNT; i++)
+			{
+				this->HDFaceFrameReaders[i] = nullptr;
+				this->HDFaceFrameSources[i] = nullptr;
+
+				try {
+
+					// HD Face Frame SOURCE
+					if (FAILED(CreateHighDefinitionFaceFrameSource(sensor, &HDFaceFrameSources[i]))) {
+						throw(Exception("Failed to create HD face frame SOURCE."));
+					}
+					else {
+						cout << "Got HD face frame SOURCE." << endl;
+					}
+
+					// HD Face Frame READER
+					if (FAILED(HDFaceFrameSources[i]->OpenReader(&HDFaceFrameReaders[i]))) {
+						throw(Exception("Failed to open Face Frame Source READER"));
+					}
+					else {
+						cout << "Got HD face frame READER." << endl;
+					}
+
+				}
+				catch (std::exception & e) {
+					SafeRelease(this->HDFaceFrameReaders[i]);
+					throw (e);
+				}
+
+			}
+
 		}
 
 		//----------
@@ -61,7 +95,7 @@ namespace ofxKinectForWindows2 {
 			try {
 				//acquire frame
 				if (FAILED(this->reader->AcquireLatestFrame(&frame))) {
-					return; // we often throw here when no new frame is available
+					return;
 				}
 				INT64 nTime = 0;
 				if (FAILED(frame->get_RelativeTime(&nTime))) {
@@ -77,6 +111,9 @@ namespace ofxKinectForWindows2 {
 					throw Exception("Failed to refresh body data");
 				}
 
+				HRESULT hr;
+
+				// FOR EACH BODY
 				for (int i = 0; i < BODY_COUNT; ++i) {
 					auto & body = bodies[i];
 					body.clear();
@@ -93,7 +130,6 @@ namespace ofxKinectForWindows2 {
 
 						if (bTracked)
 						{
-							// retrieve tracking id
 
 							UINT64 trackingId = -1;
 
@@ -102,6 +138,109 @@ namespace ofxKinectForWindows2 {
 							}
 
 							body.trackingId = trackingId;
+
+							// FACE
+							IHighDefinitionFaceFrame * pHDFaceFrame = nullptr;
+							hr = HDFaceFrameReaders[i]->AcquireLatestFrame(&pHDFaceFrame);
+							BOOLEAN bFaceTracked = false;
+							
+							if (SUCCEEDED(hr) && nullptr != pHDFaceFrame)
+							{
+								// check if a valid face is tracked in this face frame
+								hr = pHDFaceFrame->get_IsTrackingIdValid(&bFaceTracked);
+								UINT64 tempFaceId = 0;
+								UINT64 tempBodyId = 0;
+								pHDFaceFrame->get_TrackingId(&tempFaceId);
+								body.faceTrackingId = tempFaceId;
+								pBody->get_TrackingId(&tempBodyId);
+							}
+
+							if (bFaceTracked)
+							{
+								body.faceTracked = true;
+								IFaceAlignment* pFaceAlignment = nullptr;
+								hr = CreateFaceAlignment(&pFaceAlignment);
+								if (SUCCEEDED(hr)) {
+									hr = pHDFaceFrame->GetAndRefreshFaceAlignmentResult(pFaceAlignment);
+								}
+
+								float* pAnimationUnits = new float[FaceShapeAnimations_Count];
+
+								if (SUCCEEDED(hr)) {
+									hr = pFaceAlignment->GetAnimationUnits(FaceShapeAnimations_Count, body.animationUnits);
+								}
+
+								float* pDeformations = new float[FaceShapeDeformations_Count];
+								IFaceModel * pFaceModel = nullptr;
+
+								if (SUCCEEDED(hr)) {
+									hr = CreateFaceModel(1.0, FaceShapeDeformations_Count, pDeformations, &pFaceModel);
+								}
+
+								if (SUCCEEDED(hr)) {
+									hr = pFaceModel->GetFaceShapeDeformations(FaceShapeDeformations_Count, body.deformationUnits);
+								}
+
+								RectI faceBox = { 0 };
+								PointF hdPoints[36];
+								PointF facePoints[FacePointType::FacePointType_Count];
+								Vector4 faceRotation;
+
+								if (SUCCEEDED(hr)) {
+									hr = pFaceAlignment->get_FaceBoundingBox(&faceBox);
+								}
+
+								if (SUCCEEDED(hr)) {
+									ofRectangle bBox(ofPoint(faceBox.Left, faceBox.Top), ofPoint(faceBox.Right, faceBox.Bottom));
+
+									body.faceBoundingBox.set(bBox);
+									if (bBox.width > 5 || bBox.height > 5) { body.faceValid = true; }
+									else { body.faceValid = false; }
+
+									hr = pFaceAlignment->get_FaceOrientation(&faceRotation);
+								}
+
+								CameraSpacePoint headPivot;
+								if (SUCCEEDED(hr)) {
+									body.faceOrientation.set(faceRotation.x, faceRotation.y, faceRotation.z, faceRotation.w);
+									hr = pFaceAlignment->get_HeadPivotPoint(&headPivot);
+								}
+
+								FaceAlignmentQuality faceQuality;
+								if (SUCCEEDED(hr)) {
+									hr = pFaceAlignment->get_Quality(&faceQuality);
+								}
+
+								DetectionResult faceProperties[FaceProperty::FaceProperty_Count];
+
+								delete[] pDeformations;
+								delete[] pAnimationUnits;								
+
+							}
+							else
+							{
+								// face tracking is invalid
+								body.faceTracked = false;
+									if (pBody != nullptr)
+									{
+										BOOLEAN bTracked = false;
+										hr = pBody->get_IsTracked(&bTracked);
+
+										UINT64 bodyTId;
+										if (SUCCEEDED(hr) && bTracked)
+										{
+											// get the tracking ID of this body
+											hr = pBody->get_TrackingId(&bodyTId);
+											if (SUCCEEDED(hr))
+											{
+												// update the face frame source with the tracking ID
+												this->HDFaceFrameSources[i]->put_TrackingId(bodyTId);
+											}
+										}
+									}
+							}
+
+							SafeRelease(pHDFaceFrame);
 
 							// retrieve joint position & orientation
 

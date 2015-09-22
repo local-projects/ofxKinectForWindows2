@@ -58,9 +58,11 @@ namespace ofxKinectForWindows2 {
 	template<typename SourceType>
 	shared_ptr<SourceType> Device::initSource() {
 		CHECK_OPEN
-		try {
+			try {
 			auto depthSource = MAKE(SourceType);
+			cout << "Attempting to init " << depthSource->getTypeName() << "..." << endl;
 			depthSource->init(this->sensor);
+			cout << "Successful- pushing back source " << depthSource->getTypeName() << endl;
 			this->sources.push_back(depthSource);
 			return depthSource;
 		} catch (std::exception & e) {

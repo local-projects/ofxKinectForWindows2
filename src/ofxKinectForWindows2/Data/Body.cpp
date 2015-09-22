@@ -19,6 +19,8 @@ namespace ofxKinectForWindows2 {
 			leftHandState = HandState_Unknown;
 			rightHandState = HandState_Unknown;
 			tracked = false;
+			faceTracked = false;
+			faceValid = false;
 		}
 
 		//----------

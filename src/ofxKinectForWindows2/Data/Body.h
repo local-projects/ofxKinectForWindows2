@@ -3,6 +3,7 @@
 #include "Joint.h"
 
 #include <Kinect.h>
+#include <Kinect.Face.h>
 
 namespace ofxKinectForWindows2 {
 	namespace Data {
@@ -11,6 +12,18 @@ namespace ofxKinectForWindows2 {
 			int bodyId;
 			int trackingId;
 			bool tracked;
+
+			int faceId;
+			int faceTrackingId;
+			bool faceTracked;
+			bool faceValid;
+
+			float animationUnits[FaceShapeAnimations_Count];
+			float deformationUnits[FaceShapeDeformations_Count];
+			
+			ofRectangle faceBoundingBox;
+			ofQuaternion faceOrientation;
+
 			HandState leftHandState;
 			HandState rightHandState;
 			std::map<JointType, Joint> joints;
@@ -24,6 +37,7 @@ namespace ofxKinectForWindows2 {
 		protected:
 			static void initBonesAtlas();
 			static vector<pair<JointType, JointType> > * bonesAtlas;
+
 		};
 	}
 }

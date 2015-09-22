@@ -41,6 +41,9 @@ namespace ofxKinectForWindows2 {
 			IBodyFrameReader * reader;
 			ICoordinateMapper * coordinateMapper;
 
+			IHighDefinitionFaceFrameReader * HDFaceFrameReaders[BODY_COUNT];
+			IHighDefinitionFaceFrameSource * HDFaceFrameSources[BODY_COUNT];
+
 			Vector4 floorClipPlane;
 
 			vector<Data::Body> bodies;
