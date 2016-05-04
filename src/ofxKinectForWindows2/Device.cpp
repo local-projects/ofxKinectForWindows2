@@ -179,8 +179,12 @@ namespace ofxKinectForWindows2 {
 		//point cloud
 		{
 			//setup some point cloud properties for kicks
+#ifdef HAVE_OF_GET_CURRENT_WINDOW
 			auto mainWindow = std::static_pointer_cast<ofAppGLFWWindow>(ofGetCurrentWindow());
 			bool usePointSize = mainWindow ? mainWindow->getSettings().glVersionMajor <= 2 : false;
+#else
+			bool usePointSize = ofGetGLRenderer()->getGLVersionMajor() <= 2;
+#endif
 			if (usePointSize) {
 				glPushAttrib(GL_POINT_BIT);
 				glPointSize(5.0f);
