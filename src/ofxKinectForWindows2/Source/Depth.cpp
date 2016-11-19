@@ -168,16 +168,18 @@ namespace ofxKinectForWindows2 {
 		}
 
 		//----------
-		void Depth::getDepthToWorldTable(ofFloatPixels & world) const {
+		bool Depth::getDepthToWorldTable(ofFloatPixels & world) const {
 			UINT32 tableEntryCount;
 			PointF * tableEntries;
 			this->coordinateMapper->GetDepthFrameToCameraSpaceTable(&tableEntryCount, &tableEntries);
 
 			if (tableEntryCount != this->getWidth() * this->getHeight()) {
 				ofLogError("ofxKinectForWindows2::Depth::getDepthToWorldTable") << "failed";
+				return false;
 			}
 			else {
 				world.setFromPixels((float*) tableEntries, this->getWidth(), this->getHeight(), 2);
+				return true;
 			}
 		}
 
