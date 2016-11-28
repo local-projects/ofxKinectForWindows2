@@ -18,7 +18,7 @@ namespace ofxKinectForWindows2 {
 			ofNode helper;
 			helper.lookAt(ofVec3f(floorClipPlane.x, floorClipPlane.z, -floorClipPlane.y));
 			helper.boom(-floorClipPlane.w);
-			ofMatrix4x4 transform = helper.getGlobalTransformMatrix().getInverse();
+			ofMatrix4x4 transform = glm::inverse(helper.getGlobalTransformMatrix());
 			return transform;
 		}
 
@@ -275,7 +275,7 @@ namespace ofxKinectForWindows2 {
 				ofSetColor(0, 128, 0);
 			}
 			ofSetLineWidth(thickness);
-			ofLine(pJointPoints[joint0], pJointPoints[joint1]);
+			ofLine(ofVec3f(pJointPoints[joint0]), ofVec3f(pJointPoints[joint1]));
 		}
 
 		//----------
@@ -297,7 +297,7 @@ namespace ofxKinectForWindows2 {
 			}
 			ofEnableAlphaBlending();
 			ofSetColor(color);
-			ofCircle(handPos, 50);
+			ofCircle(ofVec3f(handPos), 50);
 			ofDisableAlphaBlending();
 		}
 	}

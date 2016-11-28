@@ -7,36 +7,24 @@
     <Filter Include="src\ofxKinectForWindows2">
       <UniqueIdentifier>{86806939-f359-440c-b989-432997725320}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\ofxKinectForWindows2\Source">
-      <UniqueIdentifier>{ef038ac8-52e4-450d-b04c-489f6aba359a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\ofxKinectForWindows2\Data">
       <UniqueIdentifier>{eeab42d3-af56-4576-8e45-79e3ea5610f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ofxKinectForWindows2\Source">
+      <UniqueIdentifier>{824f9c99-57c0-43b8-9d79-33e139c7a03f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\ofxKinectForWindows2.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ofxKinectForWindows2\Device.h">
-      <Filter>src\ofxKinectForWindows2</Filter>
+    <ClInclude Include="..\src\ofxKinectForWindows2\Data\Body.h">
+      <Filter>src\ofxKinectForWindows2\Data</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ofxKinectForWindows2\Utils.h">
-      <Filter>src\ofxKinectForWindows2</Filter>
+    <ClInclude Include="..\src\ofxKinectForWindows2\Data\Joint.h">
+      <Filter>src\ofxKinectForWindows2\Data</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ofxKinectForWindows2\Source\Depth.h">
-      <Filter>src\ofxKinectForWindows2\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ofxKinectForWindows2\Source\Base.h">
-      <Filter>src\ofxKinectForWindows2\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ofxKinectForWindows2\Source\BaseImage.h">
-      <Filter>src\ofxKinectForWindows2\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ofxKinectForWindows2\Source\Infrared.h">
-      <Filter>src\ofxKinectForWindows2\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ofxKinectForWindows2\Source\LongExposureInfrared.h">
+    <ClInclude Include="..\src\ofxKinectForWindows2\Source\Body.h">
       <Filter>src\ofxKinectForWindows2\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ofxKinectForWindows2\Source\BodyIndex.h">
@@ -45,27 +33,42 @@
     <ClInclude Include="..\src\ofxKinectForWindows2\Source\Color.h">
       <Filter>src\ofxKinectForWindows2\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ofxKinectForWindows2\Source\Body.h">
+    <ClInclude Include="..\src\ofxKinectForWindows2\Source\Depth.h">
       <Filter>src\ofxKinectForWindows2\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ofxKinectForWindows2\Data\Body.h">
-      <Filter>src\ofxKinectForWindows2\Data</Filter>
+    <ClInclude Include="..\src\ofxKinectForWindows2\Source\Infrared.h">
+      <Filter>src\ofxKinectForWindows2\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ofxKinectForWindows2\Data\Joint.h">
-      <Filter>src\ofxKinectForWindows2\Data</Filter>
+    <ClInclude Include="..\src\ofxKinectForWindows2\Source\LongExposureInfrared.h">
+      <Filter>src\ofxKinectForWindows2\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxKinectForWindows2\Source\Base.h">
+      <Filter>src\ofxKinectForWindows2\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxKinectForWindows2\Source\BaseImage.h">
+      <Filter>src\ofxKinectForWindows2\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxKinectForWindows2\Device.h">
+      <Filter>src\ofxKinectForWindows2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxKinectForWindows2\Utils.h">
+      <Filter>src\ofxKinectForWindows2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\ofxKinectForWindows2\Device.cpp">
-      <Filter>src\ofxKinectForWindows2</Filter>
+    <ClCompile Include="..\src\ofxKinectForWindows2\Data\Body.cpp">
+      <Filter>src\ofxKinectForWindows2\Data</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ofxKinectForWindows2\Utils.cpp">
-      <Filter>src\ofxKinectForWindows2</Filter>
+    <ClCompile Include="..\src\ofxKinectForWindows2\Data\Joint.cpp">
+      <Filter>src\ofxKinectForWindows2\Data</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ofxKinectForWindows2\Source\Depth.cpp">
+    <ClCompile Include="..\src\ofxKinectForWindows2\Source\BodyIndex.cpp">
       <Filter>src\ofxKinectForWindows2\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ofxKinectForWindows2\Source\BaseImage.cpp">
+    <ClCompile Include="..\src\ofxKinectForWindows2\Source\Color.cpp">
+      <Filter>src\ofxKinectForWindows2\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ofxKinectForWindows2\Source\Depth.cpp">
       <Filter>src\ofxKinectForWindows2\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ofxKinectForWindows2\Source\Infrared.cpp">
@@ -74,20 +77,17 @@
     <ClCompile Include="..\src\ofxKinectForWindows2\Source\LongExposureInfraRed.cpp">
       <Filter>src\ofxKinectForWindows2\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ofxKinectForWindows2\Source\BodyIndex.cpp">
-      <Filter>src\ofxKinectForWindows2\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ofxKinectForWindows2\Source\Color.cpp">
+    <ClCompile Include="..\src\ofxKinectForWindows2\Source\BaseImage.cpp">
       <Filter>src\ofxKinectForWindows2\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ofxKinectForWindows2\Source\Body.cpp">
       <Filter>src\ofxKinectForWindows2\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ofxKinectForWindows2\Data\Body.cpp">
-      <Filter>src\ofxKinectForWindows2\Data</Filter>
+    <ClCompile Include="..\src\ofxKinectForWindows2\Device.cpp">
+      <Filter>src\ofxKinectForWindows2</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ofxKinectForWindows2\Data\Joint.cpp">
-      <Filter>src\ofxKinectForWindows2\Data</Filter>
+    <ClCompile Include="..\src\ofxKinectForWindows2\Utils.cpp">
+      <Filter>src\ofxKinectForWindows2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
